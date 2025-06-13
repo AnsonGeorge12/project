@@ -1,69 +1,60 @@
-import React, { useState } from "react";
+import Head from "next/head";
+import Image from "next/image";
+import { Geist, Geist_Mono } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import Loginform from "@/components/form/Loginform.jsx";
+import { useEffect, useState } from "react";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export default function Home() {
-  const [name, setName] = useState("");
-  console.log("Name:", name);
-  const [email, setEmail] = useState("");
-  console.log("Email:", email);
-  const [psswrd, setPsswrd] = useState("");
-  console.log("Password:", psswrd);
 
+  const [name,setName]=useState("");
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
+
+
+  function handlepassword(e) {
+    setPassword(e.target.value);
+  }
+  function handlemail(e) {
+    setEmail(e.target.value);
+  }
+  function handlename(a) {
+      setName(a.target.value);
+  }
+  function handlesubmit() {
+    if (!email.includes("@")) {
+      alert("Please enter a valid email address.");
+    }
+    if (password.length < 8) {
+      alert("Password must be at least 8 characters long.");
+    }
+  } 
   return (
     <>
-      <div className={styles.container}>
-        <h1 align="center">Hello {name}</h1>
-      </div>
-
-      <br />
-
+      <head><title>My App</title></head>
       <div>
-        <input
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Enter your name"
-        />
+      Enter your Name <br/>    
+      <input type="text" onChange={handlename} /> <br/>
+      Enter your Email <br/>
+      <input type="email" onChange={handlemail} />
+      <br/>
+      Enter your Password <br/>
+      <input type="password" onChange={handlepassword} /><br/>
+      <input type="submit" onClick={handlesubmit}/>
       </div>
-
-      <br />
-
-      <div>
-        <input
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-        />
+      <div align="center">
+      <h1>Welcome {name}</h1>
+      <h2>Your email is {email}</h2>
       </div>
-
-      <br />
-
-      <div>
-        <input
-          type="password"
-          onChange={(e) => setPsswrd(e.target.value)}
-          placeholder="Enter Password"
-        />
-      </div>
-
-      <br />
-
-      <button
-        onClick={() => {
-          if (psswrd.length < 8) {
-            alert("Password must be at least 8 characters long");
-          } else {
-            alert(`Welcome ${name}!`);
-          }
-        }}
-      >
-        Sign Up
-      </button>
-
-      <br />
-        
-
-      <Loginform userName={name} userPss={psswrd} />
     </>
   );
 }
